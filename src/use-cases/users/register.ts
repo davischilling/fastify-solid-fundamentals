@@ -1,5 +1,5 @@
 import { UserAlreadyExistsError } from '@/errors'
-import { RepositoryInterface } from '@/repositories/repository.interface'
+import { UserRepositoryInterface } from '@/repositories/user-repository.interface'
 import { hash } from 'bcryptjs'
 
 interface UserRegisterUsecaseInputs {
@@ -9,7 +9,7 @@ interface UserRegisterUsecaseInputs {
 }
 
 export class UserRegisterUsecase {
-  constructor(private readonly usersRepository: RepositoryInterface) {}
+  constructor(private readonly usersRepository: UserRepositoryInterface) {}
 
   async handle({ name, email, password }: UserRegisterUsecaseInputs) {
     const password_hash = await hash(password, 6)

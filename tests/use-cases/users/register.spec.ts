@@ -1,13 +1,13 @@
 import { UserAlreadyExistsError } from '@/errors'
 import { prisma } from '@/lib/prisma'
 import { PrismaUsersRepository } from '@/repositories/prisma/users'
-import { RepositoryInterface } from '@/repositories/repository.interface'
+import { UserRepositoryInterface } from '@/repositories/user-repository.interface'
 import { UserRegisterUsecase } from '@/use-cases/users'
 import bcryptjs from 'bcryptjs'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
-describe('UserRegisterUsecase Unit Tests', () => {
-  let usersRepo: RepositoryInterface
+describe('UserRegisterUsecase Integration Tests', () => {
+  let usersRepo: UserRepositoryInterface
   let sut: UserRegisterUsecase
   const deleteUsers = prisma.user.deleteMany()
 
