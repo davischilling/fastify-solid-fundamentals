@@ -1,23 +1,25 @@
 import { ResourceNotFoundError } from '@/errors'
-import { prisma } from '@/lib/prisma'
 import { PrismaUsersRepository } from '@/repositories/prisma/users'
 import { UserRepositoryInterface } from '@/repositories/user-repository.interface'
 import { GetUserProfileUsecase } from '@/use-cases/users'
 import { hash } from 'bcryptjs'
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { cleanDb } from 'tests/setup-db'
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('GetUserProfileUsecase Integration Tests', () => {
   let usersRepo: UserRepositoryInterface
   let sut: GetUserProfileUsecase
-  const deleteUsers = prisma.user.deleteMany()
 
   beforeAll(() => {
     usersRepo = new PrismaUsersRepository()
   })
 
   beforeEach(async () => {
-    await prisma.$transaction([deleteUsers])
     sut = new GetUserProfileUsecase(usersRepo)
+  })
+
+  afterEach(async () => {
+    await cleanDb()
   })
 
   it('should throw ResourceNotFoundError if user does not exist', async () => {

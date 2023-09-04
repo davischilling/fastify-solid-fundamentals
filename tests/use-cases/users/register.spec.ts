@@ -1,23 +1,33 @@
 import { UserAlreadyExistsError } from '@/errors'
-import { prisma } from '@/lib/prisma'
 import { PrismaUsersRepository } from '@/repositories/prisma/users'
 import { UserRepositoryInterface } from '@/repositories/user-repository.interface'
 import { UserRegisterUsecase } from '@/use-cases/users'
 import bcryptjs from 'bcryptjs'
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { cleanDb } from 'tests/setup-db'
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
 
 describe('UserRegisterUsecase Integration Tests', () => {
   let usersRepo: UserRepositoryInterface
   let sut: UserRegisterUsecase
-  const deleteUsers = prisma.user.deleteMany()
 
   beforeAll(() => {
     usersRepo = new PrismaUsersRepository()
   })
 
   beforeEach(async () => {
-    await prisma.$transaction([deleteUsers])
     sut = new UserRegisterUsecase(usersRepo)
+  })
+
+  afterEach(async () => {
+    await cleanDb()
   })
 
   it('should hash user password upon registration', async () => {

@@ -7,4 +7,4 @@
 >> npx tsc --init
 
 ## Installing prod dependencies
->> npm i fastify dotenv zod @prisma/client bcryptjs
+>> npm i fastify dotenv zod @prisma/client bcryptjs dayjs
