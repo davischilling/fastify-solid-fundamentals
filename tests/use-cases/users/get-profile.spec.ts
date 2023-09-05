@@ -4,7 +4,7 @@ import { UserRepositoryInterface } from '@/repositories/user-repository.interfac
 import { GetUserProfileUsecase } from '@/use-cases/users'
 import { hash } from 'bcryptjs'
 import { cleanDb } from 'tests/setup-db'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('GetUserProfileUsecase Integration Tests', () => {
   let usersRepo: UserRepositoryInterface
@@ -16,9 +16,6 @@ describe('GetUserProfileUsecase Integration Tests', () => {
 
   beforeEach(async () => {
     sut = new GetUserProfileUsecase(usersRepo)
-  })
-
-  afterEach(async () => {
     await cleanDb()
   })
 

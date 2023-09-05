@@ -4,7 +4,7 @@ import { UserRepositoryInterface } from '@/repositories/user-repository.interfac
 import { UserAuthenticateUsecase } from '@/use-cases/users'
 import { hash } from 'bcryptjs'
 import { cleanDb } from 'tests/setup-db'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('UserAuthenticateUsecase Integration Tests', () => {
   let usersRepo: UserRepositoryInterface
@@ -16,9 +16,6 @@ describe('UserAuthenticateUsecase Integration Tests', () => {
 
   beforeEach(async () => {
     sut = new UserAuthenticateUsecase(usersRepo)
-  })
-
-  afterEach(async () => {
     await cleanDb()
   })
 

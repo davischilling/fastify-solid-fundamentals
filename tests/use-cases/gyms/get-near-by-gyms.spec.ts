@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { GymRepositoryInterface, PrismaGymsRepository } from '@/repositories'
 import { GetNearByGymsUsecase } from '@/use-cases/gyms'
 import { cleanDb } from 'tests/setup-db'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('GetNearByGymsUsecase Integration Tests', () => {
   let gymsRepo: GymRepositoryInterface
@@ -16,6 +16,8 @@ describe('GetNearByGymsUsecase Integration Tests', () => {
 
   beforeEach(async () => {
     sut = new GetNearByGymsUsecase(gymsRepo)
+    await cleanDb()
+
     let aux = 1
     const promises = []
     for (let i = 0; i < 25; i++) {
@@ -29,10 +31,6 @@ describe('GetNearByGymsUsecase Integration Tests', () => {
       aux++
     }
     await Promise.all(promises)
-  })
-
-  afterEach(async () => {
-    await cleanDb()
   })
 
   it('should return an empty array if there are no gyms registered', async () => {

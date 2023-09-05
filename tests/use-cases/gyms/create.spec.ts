@@ -1,7 +1,7 @@
 import { GymRepositoryInterface, PrismaGymsRepository } from '@/repositories'
 import { CreateGymUsecase, CreateGymUsecaseInput } from '@/use-cases/gyms'
 import { cleanDb } from 'tests/setup-db'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('CreateGymUsecase Integration Tests', () => {
   let gymsRepo: GymRepositoryInterface
@@ -13,9 +13,6 @@ describe('CreateGymUsecase Integration Tests', () => {
 
   beforeEach(async () => {
     sut = new CreateGymUsecase(gymsRepo)
-  })
-
-  afterEach(async () => {
     await cleanDb()
   })
 

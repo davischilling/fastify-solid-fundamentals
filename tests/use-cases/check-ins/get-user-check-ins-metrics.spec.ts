@@ -39,6 +39,7 @@ describe('GetUserCheckInsMetricsUsecase Integration Tests', () => {
   beforeEach(async () => {
     vi.useFakeTimers()
     sut = new GetUserCheckInsMetricsUsecase(usersRepo, checkInsRepo)
+    await cleanDb()
 
     const password = '123456'
     const password_hash = await hash(password, 6)
@@ -56,7 +57,6 @@ describe('GetUserCheckInsMetricsUsecase Integration Tests', () => {
 
   afterEach(async () => {
     vi.useRealTimers()
-    await cleanDb()
   })
 
   it('should throw ResourceNotFoundError if user does not exist', async () => {

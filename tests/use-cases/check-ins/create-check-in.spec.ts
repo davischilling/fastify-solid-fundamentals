@@ -39,11 +39,11 @@ describe('CreateCheckInUseCase Integration Tests', () => {
   beforeEach(async () => {
     vi.useFakeTimers()
     sut = new CreateCheckInUseCase(checkInsRepo, gymsRepo, usersRepo)
+    await cleanDb()
   })
 
   afterEach(async () => {
     vi.useRealTimers()
-    await cleanDb()
   })
 
   it('should throw ResourceNotFoundError if user does not exist', async () => {

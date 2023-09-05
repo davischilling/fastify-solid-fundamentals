@@ -40,6 +40,8 @@ describe('ValidateCheckInUseCase Integration Tests', () => {
   beforeEach(async () => {
     vi.useFakeTimers()
     sut = new ValidateCheckInUseCase(checkInsRepo)
+    await cleanDb()
+
     const password = '123456'
     const password_hash = await hash(password, 6)
     createdUser = await usersRepo.create({
@@ -60,7 +62,6 @@ describe('ValidateCheckInUseCase Integration Tests', () => {
 
   afterEach(async () => {
     vi.useRealTimers()
-    await cleanDb()
   })
 
   it('should throw ResourceNotFoundError if checkIn does not exist', async () => {

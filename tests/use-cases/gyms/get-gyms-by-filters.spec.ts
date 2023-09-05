@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { GymRepositoryInterface, PrismaGymsRepository } from '@/repositories'
 import { GetGymsByFiltersUsecase } from '@/use-cases/gyms'
 import { cleanDb } from 'tests/setup-db'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('GetGymsByFiltersUsecase Integration Tests', () => {
   let gymsRepo: GymRepositoryInterface
@@ -16,6 +16,8 @@ describe('GetGymsByFiltersUsecase Integration Tests', () => {
 
   beforeEach(async () => {
     sut = new GetGymsByFiltersUsecase(gymsRepo)
+    await cleanDb()
+
     const gymList = [
       {
         name: 'Gym Name',
@@ -42,10 +44,6 @@ describe('GetGymsByFiltersUsecase Integration Tests', () => {
     const promises: unknown[] = []
     gymList.forEach((gym) => promises.push(gymsRepo.create(gym)))
     await Promise.all(promises)
-  })
-
-  afterEach(async () => {
-    await cleanDb()
   })
 
   it('should return an empty array if there are no gyms registered', async () => {
