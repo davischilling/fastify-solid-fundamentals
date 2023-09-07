@@ -1,19 +1,13 @@
 import { InvalidCredentialsError } from '@/errors'
+import { authenticateBodySchema } from '@/http/validations/users'
 import { makeAuthenticateUseCase } from '@/use-cases/users/factories'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
 export async function authenticate(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const authenticateBodySchema = z.object({
-    email: z.string().email(),
-    password: z.string(),
-  })
-
   const { email, password } = authenticateBodySchema.parse(request.body)
-
   try {
     const userAuthenticateUsecase = makeAuthenticateUseCase()
     const { user } = await userAuthenticateUsecase.handle({ email, password })

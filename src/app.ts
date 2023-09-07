@@ -16,6 +16,8 @@ app.setErrorHandler((error, _, reply) => {
     return reply
       .status(400)
       .send({ message: 'Validation error', issues: error.format() })
+  } else if (error instanceof SyntaxError) {
+    return reply.status(400).send({ message: 'Invalid JSON' })
   }
   if (env.NODE_ENV !== 'production') {
     console.error(error)

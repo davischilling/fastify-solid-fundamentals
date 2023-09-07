@@ -1,15 +1,9 @@
 import { UserAlreadyExistsError } from '@/errors'
+import { registerBodySchema } from '@/http/validations/users'
 import { makeRegisterUseCase } from '@/use-cases/users/factories'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
-  const registerBodySchema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(6),
-  })
-
   const { name, email, password } = registerBodySchema.parse(request.body)
 
   try {
