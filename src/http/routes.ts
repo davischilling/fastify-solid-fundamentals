@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { register } from './controllers/users/register'
 import { authenticate } from './controllers/users/authenticate'
-import { profile } from './controllers/users'
+import { profile, refresh } from './controllers/users'
 import { verifyJWT } from './middlewares/verify-jwt'
 import {
   createCheckIn,
@@ -10,6 +10,7 @@ import {
   validateCheckIn,
 } from './controllers/check-ins'
 import { createGym, getGymsByFilter, getNearbyGyms } from './controllers/gyms'
+import { verifyUserRole } from './middlewares/verify-user-role'
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/', async () => {
@@ -18,6 +19,7 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post('/users', register)
   app.post('/sessions', authenticate)
+  app.patch('/token/refresh', refresh)
 
   /** Authenticated routes -> user */
   app.get(
@@ -53,7 +55,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.post(
     '/check-ins/validate',
     {
-      onRequest: [verifyJWT],
+      onRequest: [verifyJWT, verifyUserRole(['ADMIN'])],
     },
     validateCheckIn,
   )
@@ -62,7 +64,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.post(
     '/gyms',
     {
-      onRequest: [verifyJWT],
+      onRequest: [verifyJWT, verifyUserRole(['ADMIN'])],
     },
     createGym,
   )
