@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import { UnathorizedError } from './errors'
 
 export const app = fastify()
 
@@ -28,6 +29,8 @@ app.setErrorHandler((error, _, reply) => {
       .send({ message: 'Validation error', issues: error.format() })
   } else if (error instanceof SyntaxError) {
     return reply.status(400).send({ message: 'Invalid JSON' })
+  } else if (error instanceof UnathorizedError) {
+    return reply.status(401).send({ message: error.message })
   }
   if (env.NODE_ENV !== 'production') {
     console.error(error)

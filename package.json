@@ -11,6 +11,7 @@
     "test:install-prisma-env": "npm link vitest-environment-prisma",
     "pretest": "run-s test:create-prisma-env test:install-prisma-env",
     "test": "vitest run",
+    "test:runner": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest --passWithNoTests --coverage run",
     "test:ui": "vitest --ui",
